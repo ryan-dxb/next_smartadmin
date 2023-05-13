@@ -61,3 +61,19 @@ export interface ResetPasswordRequest extends Request {
     password: string;
   };
 }
+
+export interface UpdatePasswordRequest extends Request {
+  body: {
+    oldPassword: string;
+    newPassword: string;
+  };
+}
+
+export interface UpdateProfileRequest extends Request {
+  body: {
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+    email?: string;
+  };
+}

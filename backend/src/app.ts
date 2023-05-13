@@ -1,16 +1,18 @@
 import express from "express";
 import config from "config";
 import logger from "./utils/logger";
-import authRoutes from "./routes/authRoutes";
 import cors from "cors";
 import "express-async-errors";
 import connectDB from "./configuration/db/connectDB";
 import cookieParser from "cookie-parser";
+import errorHandler from "./middeware/errorHandler";
 
 import dotenv from "dotenv";
-import errorHandler from "./middeware/errorHandler";
 import { PORT } from "./utils/variables";
 dotenv.config();
+
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const port: string = PORT || "1255";
 
@@ -24,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", userRoutes);
 
 // Error Handler
 app.use(errorHandler);

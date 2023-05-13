@@ -7,7 +7,7 @@ import {
   resendVerifyEmail,
   forgotPasswordEmail,
   resetPassword,
-} from "../controller/userControllers/userController";
+} from "../controller/authControllers/authController";
 import { validate } from "../middeware/validator";
 import {
   ForgotPasswordSchema,
@@ -21,10 +21,12 @@ import isAuthMiddleware from "@/middeware/authMiddleware";
 
 const router = Router();
 
+// Auth
 router.post("/register", validate(RegisterUserSchema), register);
 router.post("/login", validate(LoginUserSchema), login);
 router.post("/logout", isAuthMiddleware, logout);
 
+// Verification Email
 router.post("/verify-email", validate(VerifyEmailSchema), verifyEmail);
 router.post(
   "/resend-verify-email",
@@ -32,10 +34,12 @@ router.post(
   resendVerifyEmail
 );
 
+// Password
 router.post(
   "/forgot-password",
   validate(ForgotPasswordSchema),
   forgotPasswordEmail
 );
 router.post("/reset-password", validate(ResetPasswordSchema), resetPassword);
+
 export default router;
