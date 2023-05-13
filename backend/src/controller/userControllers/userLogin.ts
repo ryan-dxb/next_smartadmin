@@ -14,7 +14,6 @@ const loginController: RequestHandler = asyncHandler(
   async (req: LoginUser, res: Response, next: NextFunction) => {
     try {
       const cookies = req.cookies;
-      console.log(req);
 
       const { email, password } = req.body;
 
@@ -57,6 +56,8 @@ const loginController: RequestHandler = asyncHandler(
 
       if (cookies?.jwt) {
         const refreshToken = cookies.jwt;
+
+        console.log("refresh token found in cookies", refreshToken);
 
         const userFound = await UserModel.findOne({ refreshToken }).exec();
 

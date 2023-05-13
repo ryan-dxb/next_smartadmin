@@ -35,6 +35,12 @@ export interface VerifyEmailRequest extends Request {
   };
 }
 
+export interface ResendVerifyEmailRequest extends Request {
+  body: {
+    email: string;
+  };
+}
+
 export interface LoginUser extends Request {
   body: {
     email: string;

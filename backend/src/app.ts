@@ -9,9 +9,10 @@ import cookieParser from "cookie-parser";
 
 import dotenv from "dotenv";
 import errorHandler from "./middeware/errorHandler";
+import { PORT } from "./utils/variables";
 dotenv.config();
 
-const PORT = config.get<number>("port");
+const port: string = PORT || "1255";
 
 const app = express();
 connectDB();
@@ -27,6 +28,6 @@ app.use("/api/auth", authRoutes);
 // Error Handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(port, () => {
   logger.info(`Server running on port ${PORT}`);
 });

@@ -40,3 +40,26 @@ export const LoginUserSchema = yup.object().shape({
 
   password: yup.string().trim().required("Password is required"),
 });
+
+export const VerifyEmailSchema = yup.object().shape({
+  userId: yup
+    .string()
+    .trim()
+    .required("User ID is required")
+    .transform(function (value) {
+      if (this.isType(value) && isValidObjectId(value)) {
+        return value;
+      }
+      return "";
+    }),
+
+  token: yup.string().trim().required("Token is required"),
+});
+
+export const ResendVerifyEmailSchema = yup.object().shape({
+  email: yup
+    .string()
+    .trim()
+    .required("Email is required")
+    .email("Email must be a valid email address"),
+});

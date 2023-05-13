@@ -4,6 +4,7 @@ dotenv.config();
 const { env } = process as { env: { [key: string]: string } };
 
 export const {
+  PORT,
   MAILTRAP_HOST,
   MAILTRAP_USER,
   MAILTRAP_PASSWORD,
