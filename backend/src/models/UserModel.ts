@@ -8,7 +8,7 @@ export interface UserInput {
   password: string;
   firstName?: string;
   lastName?: string;
-  avatar?: string;
+  avatar?: { url: string; publicId: string };
 }
 
 export interface UserDocument extends UserInput, mongoose.Document {
@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     password: { type: String, required: true },
     firstName: { type: String },
     lastName: { type: String },
-    avatar: { type: String },
+    avatar: { type: Object, url: String, publicId: String },
     isVerified: { type: Boolean, default: false },
     refreshToken: [String],
   },

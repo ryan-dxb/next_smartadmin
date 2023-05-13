@@ -10,13 +10,13 @@ import {
 } from "../controller/authControllers/authController";
 import { validate } from "../middeware/validator";
 import {
+  LoginUserSchema,
   ForgotPasswordSchema,
   RegisterUserSchema,
   ResendVerifyEmailSchema,
   ResetPasswordSchema,
   VerifyEmailSchema,
-} from "../schema/user.schema";
-import { LoginUserSchema } from "../schema/user.schema";
+} from "../schema/auth.schema";
 import isAuthMiddleware from "@/middeware/authMiddleware";
 
 const router = Router();
