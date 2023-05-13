@@ -1,14 +1,14 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
 import asyncHandler from "express-async-handler";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 import UserModel from "@/models/UserModel";
-import EmailVerificationTokenModel from "@/models/EmailVerificationTokenModel";
 import sendError from "@/utils/sendError";
-import { ResendVerifyEmailRequest } from "@/@types/user";
+import { ForgotPasswordRequest } from "@/@types/user";
+import PasswordResetTokenModel from "@/models/PasswordResetTokenModel";
 import generateToken from "@/utils/generateToken";
-import { sendVerificationEmail } from "@/utils/email";
+import { sendPasswordResetEmail } from "@/utils/email";
 
-const resendVerifyEmailController: RequestHandler = asyncHandler(
-  async (req: ResendVerifyEmailRequest, res: Response, next: NextFunction) => {
+const forgotPasswordEmailController: RequestHandler = asyncHandler(
+  async (req: ForgotPasswordRequest, res: Response, next: NextFunction) => {
     try {
       const { email } = req.body;
 
@@ -16,15 +16,10 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
       const userFound = await UserModel.findOne({ email: email.toLowerCase() });
 
       // Return a fake success message to prevent user enumeration
-      if (!userFound) return sendError(res, "Verification email sent", 200);
-
-      // Check if user is already verified
-      if (userFound.isVerified) {
-        return sendError(res, "User already verified", 400);
-      }
+      if (!userFound) return sendError(res, "Password reset email sent", 200);
 
       // Check if user has a token
-      const tokenFound = await EmailVerificationTokenModel.findOne({
+      const tokenFound = await PasswordResetTokenModel.findOne({
         owner: userFound._id,
       });
 
@@ -34,7 +29,7 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
       } else if (tokenFound) {
         return sendError(
           res,
-          "Token already sent, please check your email, You can request for a new activation link after 24 hours",
+          "Token already sent, please check your email, You can request for a new password reset link after 24 hours",
           400
         );
       }
@@ -43,7 +38,7 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
       const token = await generateToken();
 
       // Create a new token
-      const newToken = new EmailVerificationTokenModel({
+      const newToken = new PasswordResetTokenModel({
         owner: userFound._id,
         token,
       });
@@ -52,7 +47,7 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
       await newToken.save();
 
       // Send email
-      await sendVerificationEmail(
+      await sendPasswordResetEmail(
         { id: userFound._id, email: userFound.email },
         token
       );
@@ -60,7 +55,7 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
       // Send response
       res.status(201).json({
         success: true,
-        message: "Please check your email to verify your account",
+        message: "Please check your email to reset your password",
       });
     } catch (error) {
       next(error);
@@ -68,4 +63,4 @@ const resendVerifyEmailController: RequestHandler = asyncHandler(
   }
 );
 
-export default resendVerifyEmailController;
+export default forgotPasswordEmailController;

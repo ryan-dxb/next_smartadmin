@@ -28,6 +28,13 @@ export interface RegisterUser extends Request {
   };
 }
 
+export interface LoginUser extends Request {
+  body: {
+    email: string;
+    password: string;
+  };
+}
+
 export interface VerifyEmailRequest extends Request {
   body: {
     userId: string;
@@ -41,9 +48,16 @@ export interface ResendVerifyEmailRequest extends Request {
   };
 }
 
-export interface LoginUser extends Request {
+export interface ForgotPasswordRequest extends Request {
   body: {
     email: string;
+  };
+}
+
+export interface ResetPasswordRequest extends Request {
+  body: {
+    userId: string;
+    token: string;
     password: string;
   };
 }

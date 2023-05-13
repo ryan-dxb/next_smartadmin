@@ -5,11 +5,15 @@ import {
   login,
   logout,
   resendVerifyEmail,
+  forgotPasswordEmail,
+  resetPassword,
 } from "../controller/userControllers/userController";
 import { validate } from "../middeware/validator";
 import {
+  ForgotPasswordSchema,
   RegisterUserSchema,
   ResendVerifyEmailSchema,
+  ResetPasswordSchema,
   VerifyEmailSchema,
 } from "../schema/user.schema";
 import { LoginUserSchema } from "../schema/user.schema";
@@ -27,4 +31,11 @@ router.post(
   validate(ResendVerifyEmailSchema),
   resendVerifyEmail
 );
+
+router.post(
+  "/forgot-password",
+  validate(ForgotPasswordSchema),
+  forgotPasswordEmail
+);
+router.post("/reset-password", validate(ResetPasswordSchema), resetPassword);
 export default router;
