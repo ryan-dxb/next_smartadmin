@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Response, NextFunction, RequestHandler } from "express";
 import asyncHandler from "express-async-handler";
 import UserModel from "@/models/UserModel";
 import EmailVerificationTokenModel from "@/models/EmailVerificationTokenModel";
 import sendError from "@/utils/sendError";
-import { VerifyEmailRequest } from "@/@types/user";
+import { VerifyEmailRequest } from "@/@types/auth";
 
 const verifyEmailController: RequestHandler = asyncHandler(
   async (req: VerifyEmailRequest, res: Response, next: NextFunction) => {

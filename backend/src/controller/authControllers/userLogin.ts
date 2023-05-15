@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Response, NextFunction, RequestHandler } from "express";
 import UserModel from "@/models/UserModel";
 import asyncHandler from "express-async-handler";
 import sendError from "@/utils/sendError";
 import jwt from "jsonwebtoken";
-import { LoginUser } from "@/@types/user";
+import { LoginUser } from "@/@types/auth";
 import {
   ACCESS_JWT_SECRET,
   HTTPONLY_SECURE,

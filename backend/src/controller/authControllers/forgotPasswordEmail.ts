@@ -1,8 +1,8 @@
 import asyncHandler from "express-async-handler";
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Response, NextFunction, RequestHandler } from "express";
 import UserModel from "@/models/UserModel";
 import sendError from "@/utils/sendError";
-import { ForgotPasswordRequest } from "@/@types/user";
+import { ForgotPasswordRequest } from "@/@types/auth";
 import PasswordResetTokenModel from "@/models/PasswordResetTokenModel";
 import generateToken from "@/utils/generateToken";
 import { sendPasswordResetEmail } from "@/utils/email";

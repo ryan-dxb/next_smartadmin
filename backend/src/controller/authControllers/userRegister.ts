@@ -1,7 +1,7 @@
-import { Request, Response, RequestHandler } from "express";
+import { Response, RequestHandler } from "express";
 
 import asyncHandler from "express-async-handler";
-import { RegisterUser } from "@/@types/user";
+import { RegisterUser } from "@/@types/auth";
 import sendError from "@/utils/sendError";
 import UserModel from "@/models/UserModel";
 import generateToken from "@/utils/generateToken";

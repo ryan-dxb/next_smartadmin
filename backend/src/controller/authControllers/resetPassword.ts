@@ -1,14 +1,10 @@
 import asyncHandler from "express-async-handler";
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Response, NextFunction, RequestHandler } from "express";
 import UserModel from "@/models/UserModel";
 import sendError from "@/utils/sendError";
-import { ForgotPasswordRequest, ResetPasswordRequest } from "@/@types/user";
+import { ResetPasswordRequest } from "@/@types/auth";
 import PasswordResetTokenModel from "@/models/PasswordResetTokenModel";
-import generateToken from "@/utils/generateToken";
-import {
-  sendPasswordChangedEmail,
-  sendPasswordResetEmail,
-} from "@/utils/email";
+import { sendPasswordChangedEmail } from "@/utils/email";
 
 const resetPasswordController: RequestHandler = asyncHandler(
   async (req: ResetPasswordRequest, res: Response, next: NextFunction) => {

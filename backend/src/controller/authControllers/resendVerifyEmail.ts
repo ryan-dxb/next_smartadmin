@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Response, NextFunction, RequestHandler } from "express";
 import asyncHandler from "express-async-handler";
 import UserModel from "@/models/UserModel";
 import EmailVerificationTokenModel from "@/models/EmailVerificationTokenModel";
 import sendError from "@/utils/sendError";
-import { ResendVerifyEmailRequest } from "@/@types/user";
+import { ResendVerifyEmailRequest } from "@/@types/auth";
 import generateToken from "@/utils/generateToken";
 import { sendVerificationEmail } from "@/utils/email";
 
