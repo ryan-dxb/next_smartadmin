@@ -1,3 +1,4 @@
+import Form from "@/components/AuthForm/Form";
 import { NextPage } from "next";
 
 interface VerifyEmailProps {}
@@ -5,7 +6,12 @@ interface VerifyEmailProps {}
 const VerifyEmail: NextPage<VerifyEmailProps> = () => {
   return (
     <>
-      <h1>VerifyEmail</h1>
+      <Form
+        withFooter
+        footerText="You can now login with your credentials"
+        footerLink="login"
+        footerLinkText="Login"
+      />
     </>
   );
 };

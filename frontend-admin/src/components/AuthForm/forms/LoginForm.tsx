@@ -1,20 +1,18 @@
+"use client";
+
 import { NextPage } from "next";
-import Input from "../Inputs/Input";
-import Button from "../Button";
+
+import Button from "../../Button";
 import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import SocialLoginForm from "./SocialLoginForm";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { RegisterSchema } from "@/schema/auth.schema";
+import SocialLoginForm from "../SocialLoginForm";
+import Input from "@/components/Inputs/Input";
+import Link from "next/link";
 
 interface LoginFormProps {}
 
 const LoginForm: NextPage<LoginFormProps> = ({}) => {
-  const [showPasswordToggle, setShowPasswordToggle] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const showPasswordToggleHandler = useCallback(() => {
-    setShowPasswordToggle((prev) => (prev == false ? true : false));
-  }, []);
 
   const {
     register,
@@ -22,16 +20,21 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      email: "",
-      password: "",
       username: "",
+      password: "",
     },
-    resolver: yupResolver(RegisterSchema),
+    // resolver: yupResolver(RegisterSchema),
   });
 
+  const isEmail = (str: string) => {
+    // Check if input is valid email
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const isEmailValid = isEmail(data.username);
     setIsLoading(true);
-    console.log(data);
+    console.log(isEmailValid);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -69,18 +72,19 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
           errors={errors}
           register={register}
           disabled={isLoading}
-          showPassword={showPasswordToggle}
-          togglePassword={showPasswordToggleHandler}
         />
-        <span className="flex justify-end text-sm font-semibold text-gray-400">
+        <Link
+          href="/forgot-password"
+          className="flex justify-end text-sm font-semibold text-gray-400"
+        >
           Forgot password?
-        </span>
+        </Link>
 
         <SocialLoginForm />
 
         <div>
           <Button disabled={isLoading} fullWidth type="submit">
-            {isLoading ? "Loading..." : "Register"}
+            {isLoading ? "Loading..." : "Login"}
           </Button>
         </div>
       </form>

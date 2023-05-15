@@ -1,20 +1,18 @@
+"use client";
+
 import { NextPage } from "next";
-import Input from "../Inputs/Input";
-import Button from "../Button";
+import Input from "../../Inputs/Input";
+import Button from "../../Button";
 import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import SocialLoginForm from "./SocialLoginForm";
+import SocialLoginForm from "../SocialLoginForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "@/schema/auth.schema";
 
 interface RegisterFormProps {}
 
 const RegisterForm: NextPage<RegisterFormProps> = ({}) => {
-  const [showPasswordToggle, setShowPasswordToggle] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const showPasswordToggleHandler = useCallback(() => {
-    setShowPasswordToggle((prev) => (prev == false ? true : false));
-  }, []);
 
   const {
     register,
@@ -79,8 +77,6 @@ const RegisterForm: NextPage<RegisterFormProps> = ({}) => {
           errors={errors}
           register={register}
           disabled={isLoading}
-          showPassword={showPasswordToggle}
-          togglePassword={showPasswordToggleHandler}
         />
 
         <SocialLoginForm />

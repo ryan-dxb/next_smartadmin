@@ -1,3 +1,5 @@
+import Form from "@/components/AuthForm/Form";
+import FormTitle from "@/components/AuthForm/FormTitle";
 import { NextPage } from "next";
 
 interface SendVerificationEmailProps {}
@@ -5,7 +7,8 @@ interface SendVerificationEmailProps {}
 const SendVerificationEmail: NextPage<SendVerificationEmailProps> = () => {
   return (
     <>
-      <h1>SendVerificationEmail</h1>
+      <FormTitle text="Verification email" />
+      <Form />
     </>
   );
 };

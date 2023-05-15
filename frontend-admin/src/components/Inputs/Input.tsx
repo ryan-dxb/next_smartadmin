@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import clsx from "clsx";
 import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useCallback, useState } from "react";
 
 interface InputProps {
   label: string;
@@ -13,8 +14,9 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   disabled?: boolean;
-  showPassword?: boolean;
-  togglePassword?: () => void;
+  // showPassword?: boolean;
+  // togglePassword?: () => void;
+  // setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Input: NextPage<InputProps> = ({
@@ -25,9 +27,15 @@ const Input: NextPage<InputProps> = ({
   register,
   errors,
   disabled = false,
-  showPassword = false,
-  togglePassword,
+  // showPassword = false,
+  // setShowPassword,
 }) => {
+  const [showPasswordToggle, setShowPasswordToggle] = useState<boolean>(false);
+
+  const showPasswordToggleHandler = useCallback(() => {
+    setShowPasswordToggle((prev) => (prev == false ? true : false));
+  }, []);
+
   return (
     <div>
       <label
@@ -39,7 +47,7 @@ const Input: NextPage<InputProps> = ({
       <div className="relative mt-2">
         <input
           id={id}
-          type={showPassword ? "text" : type}
+          type={showPasswordToggle ? "text" : type}
           disabled={disabled}
           {...register(id, { required })}
           className={clsx(
@@ -59,11 +67,11 @@ const Input: NextPage<InputProps> = ({
         {/* If Password and then show and hide icon */}
         {type === "password" && (
           <button
-            onClick={togglePassword}
+            onClick={showPasswordToggleHandler}
             type="button"
             className="absolute top-1.5 right-1"
           >
-            {!showPassword ? (
+            {!showPasswordToggle ? (
               <AiOutlineEye className="text-2xl text-gray-400" />
             ) : (
               <AiOutlineEyeInvisible className="text-2xl text-gray-400" />

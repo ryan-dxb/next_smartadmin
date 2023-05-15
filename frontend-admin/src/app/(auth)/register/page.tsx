@@ -1,5 +1,5 @@
-import Form from "@/components/AuthFormNew/Form";
-import FormTitle from "@/components/AuthFormNew/FormTitle";
+import Form from "@/components/AuthForm/Form";
+import FormTitle from "@/components/AuthForm/FormTitle";
 import { NextPage } from "next";
 
 interface RegisterProps {}

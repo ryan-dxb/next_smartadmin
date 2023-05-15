@@ -1,6 +1,6 @@
-import FormHeader from "@/components/AuthFormNew/FormTitle";
+import FormHeader from "@/components/AuthForm/FormTitle";
 import { NextPage } from "next";
-import Form from "@/components/AuthFormNew/Form";
+import Form from "@/components/AuthForm/Form";
 
 interface LoginProps {}
 
