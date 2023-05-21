@@ -19,7 +19,7 @@ const DesktopSidebarPanel: NextPage<DesktopSidebarPanelProps> = () => {
           {dashboardRoutes.map((route) => (
             <>
               <DesktopSidebarPanelItem key={route.label} route={route} />
-              <Separator className="my-2" orientation="horizontal" />
+              <Separator className="my-2 " orientation="horizontal" />
             </>
           ))}
         </ul>

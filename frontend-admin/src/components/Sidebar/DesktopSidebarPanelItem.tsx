@@ -30,8 +30,8 @@ const DesktopSidebarPanelItem: NextPage<DesktopSidebarPanelItemProps> = ({
           {route.subRoutes.map((subRoute) => (
             <li
               className={cn(
-                "rounded-md group hover:bg-gray-100",
-                subRoute.active && "bg-gray-100"
+                "rounded-md group  hover:bg-gray-100",
+                subRoute.active && "bg-gray-100 "
               )}
               key={subRoute.label}
             >
