@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Logo from "../Logo";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/Button";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { BsChat } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
@@ -18,13 +18,13 @@ const Sidebar: NextPage<SidebarProps> = () => {
         </div>
         <div className="flex flex-col items-center my-3 space-y-3">
           <Button variant="outline">
-            <MdOutlineDashboardCustomize className="w-6 h-6 text-gray-600" />
+            <MdOutlineDashboardCustomize className="w-6 h-6 " />
           </Button>
           <Button variant="outline">
-            <BsChat className="w-6 h-6 text-gray-600" />
+            <BsChat className="w-6 h-6 " />
           </Button>
           <Button variant="outline">
-            <AiOutlineMail className="w-6 h-6 text-gray-600" />
+            <AiOutlineMail className="w-6 h-6 " />
           </Button>
         </div>
       </div>

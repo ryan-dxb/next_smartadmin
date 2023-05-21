@@ -1,4 +1,4 @@
-import { Separator } from "@radix-ui/react-separator";
+import { cn } from "@/lib/utils";
 import { NextPage } from "next";
 import Link from "next/link";
 import { IconType } from "react-icons";
@@ -20,24 +20,27 @@ interface DesktopSidebarPanelItemProps {
 const DesktopSidebarPanelItem: NextPage<DesktopSidebarPanelItemProps> = ({
   route,
 }) => {
-  console.log(route);
-
   return (
     <>
-      <li className="my-2 text-xs font-semibold tracking-tight text-gray-500 uppercase">
-        <Link href={route.href}>{route.label}</Link>
+      <li className="my-2 text-xs font-semibold tracking-tight text-gray-500 uppercase ">
+        <p className="cursor-text">{route.label}</p>
       </li>
       {route.subRoutes && (
         <ul>
           {route.subRoutes.map((subRoute) => (
             <li
-              className="flex items-center px-4 py-2 space-x-2 "
+              className={cn(
+                "rounded-md group hover:bg-gray-100",
+                subRoute.active && "bg-gray-100"
+              )}
               key={subRoute.label}
             >
-              <subRoute.icon className="w-5 h-5 text-gray-600" />
-
-              <Link className="text-sm text-gray-600" href={subRoute.href}>
-                {subRoute.label}
+              <Link
+                className="flex items-center px-4 py-2 space-x-2 rounded-md cursor-pointer"
+                href={subRoute.href}
+              >
+                <subRoute.icon className="w-5 h-5 text-gray-600" />
+                <p className="text-sm text-gray-600">{subRoute.label}</p>
               </Link>
             </li>
           ))}

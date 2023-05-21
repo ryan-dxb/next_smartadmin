@@ -1,27 +1,32 @@
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { VariantProps, cva } from "class-variance-authority";
+"use client";
 
+import { VariantProps, cva } from "class-variance-authority";
+import React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex text-white items-center justify-center rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none ",
+  "inline-flex text-white items-center justify-center rounded-md text-sm font-medium focus-visible:outline-none    disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 ease-in-out",
+
   {
     variants: {
       variant: {
-        default: "bg-indigo-500  hover:bg-indigo-600",
+        default: "bg-indigo-500 hover:bg-indigo-600",
         destructive: "bg-rose-500  hover:bg-rose-600",
-        outline: "border border-[1px] ",
-        // hover:ring-indigo-600 hover:ring-2 hover:ring-offset-2 hover:border-transparent text-indigo-500 hover:text-indigo-600
-        // secondary:
-        //   "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        // ghost: "hover:bg-accent hover:text-accent-foreground",
-        // link: "underline-offset-4 hover:underline text-primary",
+        outline:
+          "border border-[2px] text-gray-600 hover:border-indigo-600 hover:text-indigo-600 focus-visible:border-indigo-600 focus-visible:text-indigo-600",
+        disabled: "opacity-50 cursor-not-allowed",
+        danger: "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
+        dangerOutline: "border border-[1px] hover:border-rose-600",
       },
       size: {
         default: "h-10 w-10",
         sm: "h-9  w-9",
         lg: "h-11 w-11  ",
+      },
+      width: {
+        default: "",
+        fullWidth: "w-full",
       },
     },
     defaultVariants: {
@@ -35,14 +40,28 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
+// interface ButtonProps {
+//   fullWidth?: boolean;
+//   children: React.ReactNode;
+//   onClick?: () => void;
+//   secondary?: boolean;
+//   danger?: boolean;
+//   disabled?: boolean;
+// }
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, width, type, asChild = false, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        type={type}
+        className={cn(buttonVariants({ variant, width, size, className }))}
         ref={ref}
         {...props}
       />
@@ -52,3 +71,5 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
+
+export default Button;
