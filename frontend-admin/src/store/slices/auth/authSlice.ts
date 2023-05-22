@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from "../store";
+import { RootState } from "../../store";
+import { IUser } from "../api/types";
 
-interface UserState {
-  user: {};
+interface AuthState {
+  user: IUser | {};
   token: string;
 }
 
-const initialState: UserState = {
+const initialState: AuthState = {
   user: {},
   token: "",
 };
 
-export const userSlice = createSlice({
+export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -20,11 +21,12 @@ export const userSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
+    logout: () => initialState,
   },
 });
 
-export const { setCredentials } = userSlice.actions;
+export const { setCredentials, logout } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.users;
 
-export default userSlice.reducer;
+export default authSlice.reducer;

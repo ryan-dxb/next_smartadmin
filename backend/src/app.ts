@@ -13,13 +13,14 @@ dotenv.config();
 
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
+import corsOptions from "./configuration/cors/corsOptions";
 
 const port: string = PORT || "1255";
 
 const app = express();
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

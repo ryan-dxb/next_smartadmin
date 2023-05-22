@@ -7,6 +7,7 @@ import {
   resendVerifyEmail,
   forgotPasswordEmail,
   resetPassword,
+  refreshToken,
 } from "../controller/authControllers/authController";
 import { validate } from "../middeware/validator";
 import {
@@ -25,6 +26,7 @@ const router = Router();
 router.post("/register", validate(RegisterUserSchema), register);
 router.post("/login", validate(LoginUserSchema), login);
 router.post("/logout", isAuthMiddleware, logout);
+router.post("/refresh-token", refreshToken);
 
 // Verification Email
 router.post("/verify-email", validate(VerifyEmailSchema), verifyEmail);

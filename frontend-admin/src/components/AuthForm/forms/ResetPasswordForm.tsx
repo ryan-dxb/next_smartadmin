@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import Input from "@/components/Inputs/Input";
 import { NextPage } from "next";
 
@@ -75,7 +75,7 @@ const ResetPasswordForm: NextPage<ResetPasswordFormProps> = () => {
         />
 
         <div>
-          <Button disabled={isLoading} fullWidth type="submit">
+          <Button disabled={isLoading} width="fullWidth" type="submit">
             {isLoading ? "Loading..." : "Submit"}
           </Button>
         </div>

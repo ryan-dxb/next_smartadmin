@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import Input from "../../Inputs/Input";
-import Button from "../../Button";
+import Button from "@/components/ui/Button";
 import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import SocialLoginForm from "../SocialLoginForm";
@@ -82,7 +82,7 @@ const RegisterForm: NextPage<RegisterFormProps> = ({}) => {
         <SocialLoginForm />
 
         <div>
-          <Button disabled={isLoading} fullWidth type="submit">
+          <Button disabled={isLoading} width="fullWidth" type="submit">
             {isLoading ? "Loading..." : "Register"}
           </Button>
         </div>

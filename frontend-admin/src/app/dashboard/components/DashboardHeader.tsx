@@ -13,7 +13,6 @@ const DashboardHeader: NextPage<DashboardHeaderProps> = () => {
       <div className="flex ml-4 text-xl font-bold">
         <span className=""></span>SMART{" "}
         <span className="font-bold text-indigo-600">ADMIN</span>
-        <p>{store.getState().users.user.name}</p>
       </div>
       <div className="w-full px-4">
         <div className="flex flex-row items-center justify-end space-x-6 ">

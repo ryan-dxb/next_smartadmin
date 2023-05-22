@@ -1,6 +1,5 @@
 import { CorsOptions } from "cors";
 import allowedOrigins from "./allowedOrigins";
-import { string } from "yup";
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {

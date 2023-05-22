@@ -59,11 +59,12 @@ UserSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
 };
 
-// Remove password and refresh token from user object and add id field
+// Remove password / refresh token / version / from user object and add id field
 UserSchema.methods.toJSON = function () {
   let user = this.toObject();
   delete user.password;
   delete user.refreshToken;
+  delete user.__v;
   user.id = user._id;
   delete user._id;
   return user;

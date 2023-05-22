@@ -43,3 +43,9 @@ export interface ResetPasswordRequest extends Request {
     password: string;
   };
 }
+
+export interface RefreshTokenRequest extends Request {
+  cookies: {
+    refreshToken: string;
+  };
+}

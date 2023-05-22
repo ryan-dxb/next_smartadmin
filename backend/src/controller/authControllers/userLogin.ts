@@ -8,6 +8,7 @@ import {
   ACCESS_JWT_SECRET,
   HTTPONLY_SECURE,
   REFRESH_JWT_SECRET,
+  HTTPONLY_SAMESITE,
 } from "@/utils/variables";
 
 const loginController: RequestHandler = asyncHandler(
@@ -50,12 +51,12 @@ const loginController: RequestHandler = asyncHandler(
         }
       );
 
-      let newRefreshTokenArray: string[] = !cookies?.jwt
+      let newRefreshTokenArray: string[] = !cookies?.refreshToken
         ? user.refreshToken
-        : user.refreshToken.filter((rt) => rt !== cookies.jwt);
+        : user.refreshToken.filter((rt) => rt !== cookies.refreshToken);
 
-      if (cookies?.jwt) {
-        const refreshToken = cookies.jwt;
+      if (cookies?.refreshToken) {
+        const refreshToken = cookies.refreshToken;
 
         console.log("refresh token found in cookies", refreshToken);
 
@@ -66,7 +67,7 @@ const loginController: RequestHandler = asyncHandler(
           newRefreshTokenArray = [];
         }
 
-        res.clearCookie("jwt", {
+        res.clearCookie("refreshToken", {
           httpOnly: true,
           sameSite: "none",
           secure: HTTPONLY_SECURE === "true" ? true : false,
@@ -78,12 +79,14 @@ const loginController: RequestHandler = asyncHandler(
       await user.save();
 
       // Send refresh token to user
-      res.cookie("jwt", newRefreshToken, {
+      res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: HTTPONLY_SECURE === "true" ? true : false,
-        sameSite: "none",
+        sameSite: HTTPONLY_SAMESITE as "none" | "lax" | "strict" | undefined,
         maxAge: 24 * 60 * 60 * 1000,
       });
+
+      res.header("Access-Control-Allow-Credentials", "true");
 
       // Send access token and user details
       res.json({

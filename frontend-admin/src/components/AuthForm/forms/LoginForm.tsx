@@ -2,17 +2,20 @@
 
 import { NextPage } from "next";
 
-import Button from "../../Button";
+import Button from "@/components/ui/Button";
 import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import SocialLoginForm from "../SocialLoginForm";
 import Input from "@/components/Inputs/Input";
 import Link from "next/link";
+import { useLoginUserMutation } from "@/store/slices/api/authApi";
 
 interface LoginFormProps {}
 
 const LoginForm: NextPage<LoginFormProps> = ({}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [loginUser, { isLoading, isError, error, isSuccess }] =
+    useLoginUserMutation();
 
   const {
     register,
@@ -20,8 +23,8 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      username: "",
-      password: "",
+      username: "test@test.com",
+      password: "Password1*",
     },
     // resolver: yupResolver(RegisterSchema),
   });
@@ -33,12 +36,36 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const isEmailValid = isEmail(data.username);
-    setIsLoading(true);
-    console.log(isEmailValid);
+    // setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 2000);
+
+    let response;
+    if (isEmailValid) {
+      // login with email
+      response = await loginUser({
+        email: data.username,
+        password: data.password,
+      });
+    } else {
+      // login with username
+      response = await loginUser({
+        username: data.username,
+        password: data.password,
+      });
+    }
+
+    if (isError) {
+      console.log("error", error);
+    }
+
+    if (isSuccess) {
+      console.log("success");
+    }
+
+    console.log("response", response);
 
     //     // register
     //     await axios
@@ -83,7 +110,7 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
         <SocialLoginForm />
 
         <div>
-          <Button disabled={isLoading} fullWidth type="submit">
+          <Button disabled={isLoading} width="fullWidth" type="submit">
             {isLoading ? "Loading..." : "Login"}
           </Button>
         </div>
