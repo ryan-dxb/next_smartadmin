@@ -57,7 +57,7 @@ const refreshTokenController = asyncHandler(
           let newRefreshTokenArray: string[] = !cookies?.refreshToken
             ? userFound.refreshToken
             : userFound.refreshToken.filter(
-                (rt) => rt !== cookies.refreshToken
+                (rt: any) => rt !== cookies.refreshToken
               );
 
           // Removing the old refresh token from cookies
@@ -75,7 +75,11 @@ const refreshTokenController = asyncHandler(
 
             res.clearCookie("refreshToken", {
               httpOnly: true,
-              sameSite: HTTPONLY_SAMESITE,
+              sameSite: HTTPONLY_SAMESITE as
+                | "strict"
+                | "lax"
+                | "none"
+                | undefined,
               secure: HTTPONLY_SECURE === "true" ? true : false,
             });
           }
@@ -88,7 +92,11 @@ const refreshTokenController = asyncHandler(
           res.cookie("refreshToken", newRefreshToken, {
             httpOnly: true,
             secure: HTTPONLY_SECURE === "true" ? true : false,
-            sameSite: HTTPONLY_SAMESITE,
+            sameSite: HTTPONLY_SAMESITE as
+              | "none"
+              | "lax"
+              | "strict"
+              | undefined,
             maxAge: 24 * 60 * 60 * 1000,
           });
 

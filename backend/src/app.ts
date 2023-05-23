@@ -13,6 +13,7 @@ dotenv.config();
 
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
+import postRoutes from "./routes/postRoutes";
 import corsOptions from "./configuration/cors/corsOptions";
 
 const port: string = PORT || "1255";
@@ -28,6 +29,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", userRoutes);
+app.use("/api/posts", postRoutes);
 
 // Error Handler
 app.use(errorHandler);

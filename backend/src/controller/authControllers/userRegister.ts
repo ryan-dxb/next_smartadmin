@@ -17,6 +17,14 @@ const registerController: RequestHandler = asyncHandler(
       if (!username || !email || !password)
         sendError(res, "Please provide all required fields", 400);
 
+      // Check if user with same email exists
+      const userExists = await UserModel.findOne({
+        email: email.toLowerCase(),
+      });
+
+      if (userExists)
+        sendError(res, "Account with same email already exists", 400);
+
       // Create new user
       const user = await UserModel.create({
         firstName,

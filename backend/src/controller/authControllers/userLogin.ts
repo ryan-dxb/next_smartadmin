@@ -53,7 +53,7 @@ const loginController: RequestHandler = asyncHandler(
 
       let newRefreshTokenArray: string[] = !cookies?.refreshToken
         ? user.refreshToken
-        : user.refreshToken.filter((rt) => rt !== cookies.refreshToken);
+        : user.refreshToken.filter((rt: any) => rt !== cookies.refreshToken);
 
       if (cookies?.refreshToken) {
         const refreshToken = cookies.refreshToken;

@@ -17,4 +17,5 @@ export const {
   CLOUD_KEY,
   CLOUD_NAME,
   CLOUD_SECRET,
+  HTTPONLY_SAMESITE,
 } = env;

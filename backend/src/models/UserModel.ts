@@ -70,6 +70,7 @@ UserSchema.methods.toJSON = function () {
   return user;
 };
 
-const UserModel = mongoose.model<UserDocument>("User", UserSchema);
+const UserModel =
+  mongoose.models.User || mongoose.model<UserDocument>("User", UserSchema);
 
 export default UserModel;
