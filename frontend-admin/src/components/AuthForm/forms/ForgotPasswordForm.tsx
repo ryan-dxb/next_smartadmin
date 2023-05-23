@@ -4,15 +4,19 @@ import { NextPage } from "next";
 
 import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import SocialLoginForm from "../SocialLoginForm";
-import Link from "next/link";
+
 import { ForgotPasswordSchema } from "@/schema/auth.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { useForgotPasswordMutation } from "@/store/slices/api/authApi";
 
 interface ForgotPasswordFormProps {}
 
 const ForgotPasswordForm: NextPage<ForgotPasswordFormProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const [forgotPassword, { isError, error, isSuccess }] =
+    useForgotPasswordMutation();
 
   const {
     register,
@@ -26,21 +30,19 @@ const ForgotPasswordForm: NextPage<ForgotPasswordFormProps> = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+    const response = await forgotPassword({
+      email: data.email,
+    });
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    if (isError) {
+      console.log("error", error);
+    }
 
-    //     // register
-    //     await axios
-    //       .post("/api/register", data)
-    //       .then(() => signIn("credentials", { ...data, redirect: false }))
-    //       .catch((error) => {
-    //         console.log(error);
-    //         toast.error("Something went wrong! Please try again.");
-    //       });
-    //   }
+    if (isSuccess) {
+      console.log("success");
+    }
+
+    console.log("response", response);
   };
 
   return (

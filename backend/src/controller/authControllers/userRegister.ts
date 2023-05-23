@@ -40,7 +40,6 @@ const registerController: RequestHandler = asyncHandler(
       // Send response
       res.status(201).json({
         success: true,
-        user,
         message: "Please check your email to verify your account",
       });
     } catch (error) {

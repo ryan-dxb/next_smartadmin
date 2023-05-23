@@ -18,7 +18,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
+} from "@/components/ShadeUi/dropdown-menu";
 
 import {
   Table,
@@ -27,10 +27,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../table";
+} from "@/components/ShadeUi/table";
 
 import Button from "../ui/Button";
-import { Input } from "../input";
+import { Input } from "@/components/ShadeUi/input";
 
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { useState } from "react";

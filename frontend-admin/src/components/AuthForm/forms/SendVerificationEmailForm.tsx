@@ -2,12 +2,13 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/Inputs/Input";
 import { NextPage } from "next";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import SocialLoginForm from "../SocialLoginForm";
-import Link from "next/link";
+
 import { ForgotPasswordSchema } from "@/schema/auth.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { useSendVerificationEmailMutation } from "@/store/slices/api/authApi";
 
 interface SendVerificationEmailFormProps {}
 
@@ -15,6 +16,9 @@ const SendVerificationEmailForm: NextPage<
   SendVerificationEmailFormProps
 > = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const [sendVerificationEmail, { isError, error, isSuccess }] =
+    useSendVerificationEmailMutation();
 
   const {
     register,
@@ -28,21 +32,19 @@ const SendVerificationEmailForm: NextPage<
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+    const response = await sendVerificationEmail({
+      email: data.email,
+    });
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    if (isError) {
+      console.log("error", error);
+    }
 
-    //     // register
-    //     await axios
-    //       .post("/api/register", data)
-    //       .then(() => signIn("credentials", { ...data, redirect: false }))
-    //       .catch((error) => {
-    //         console.log(error);
-    //         toast.error("Something went wrong! Please try again.");
-    //       });
-    //   }
+    if (isSuccess) {
+      console.log("success");
+    }
+
+    console.log("response", response);
   };
 
   return (

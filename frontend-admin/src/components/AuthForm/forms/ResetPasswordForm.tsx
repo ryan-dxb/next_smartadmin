@@ -6,16 +6,20 @@ import { useCallback, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import SocialLoginForm from "../SocialLoginForm";
 import Link from "next/link";
-import {
-  ForgotPasswordSchema,
-  ResetPasswordSchema,
-} from "@/schema/auth.schema";
+import { ResetPasswordSchema } from "@/schema/auth.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useResetPasswordMutation } from "@/store/slices/api/authApi";
 
-interface ResetPasswordFormProps {}
+interface ResetPasswordFormProps {
+  token?: string;
+  id?: string;
+}
 
-const ResetPasswordForm: NextPage<ResetPasswordFormProps> = () => {
+const ResetPasswordForm: NextPage<ResetPasswordFormProps> = ({ token, id }) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const [resetPassword, { isError, error, isSuccess }] =
+    useResetPasswordMutation();
 
   const {
     register,
@@ -29,26 +33,22 @@ const ResetPasswordForm: NextPage<ResetPasswordFormProps> = () => {
     resolver: yupResolver(ResetPasswordSchema),
   });
 
-  console.log(errors);
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+    const response = await resetPassword({
+      userId: id,
+      token: token,
+      password: data.password,
+    });
 
-    console.log(errors);
+    if (isError) {
+      console.log("error", error);
+    }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    if (isSuccess) {
+      console.log("success");
+    }
 
-    //     // register
-    //     await axios
-    //       .post("/api/register", data)
-    //       .then(() => signIn("credentials", { ...data, redirect: false }))
-    //       .catch((error) => {
-    //         console.log(error);
-    //         toast.error("Something went wrong! Please try again.");
-    //       });
-    //   }
+    console.log("response", response);
   };
 
   return (

@@ -1,7 +1,7 @@
-import { NextPage } from "next";
-import { Payment, columns } from "@/components/Datatable/DataTableColums";
 import { DataTable } from "@/components/Datatable/DataTable";
-
+import { columns } from "@/components/Datatable/DataTableColums";
+import { NextPage } from "next";
+import { useMemo } from "react";
 interface DashboardUserTableProps {}
 
 const data = [
@@ -12,11 +12,12 @@ const data = [
     email: "m@example.com",
   },
   {
-    id: "728ed5dsfgdsf",
+    id: "728ed5sd4f",
     amount: 200,
     status: "success",
-    email: "m@test.com",
+    email: "m2@example.com",
   },
+  // ...
 ];
 
 const DashboardUserTable: NextPage<DashboardUserTableProps> = () => {

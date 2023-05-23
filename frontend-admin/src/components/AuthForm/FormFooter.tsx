@@ -14,7 +14,7 @@ const Formfooter: NextPage<FormfooterProps> = ({
 }) => {
   return (
     <div className="flex justify-center gap-2 px-2 mt-6 text-sm text-gray-500">
-      <div>{footerText}</div>
+      <p>{footerText}</p>
       <Link href={footerLink} className="underline cursor-pointer">
         {footerLinkText}
       </Link>

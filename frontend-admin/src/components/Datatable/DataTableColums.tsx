@@ -10,10 +10,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
+} from "@/components/ShadeUi/dropdown-menu";
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Checkbox } from "@/components/checkbox";
+import { Checkbox } from "@/components/ShadeUi/checkbox";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -27,13 +27,15 @@ export type Payment = {
 export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+    header: ({ table }) => {
+      return (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      );
+    },
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}

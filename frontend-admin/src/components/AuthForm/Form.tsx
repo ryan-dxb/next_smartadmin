@@ -9,12 +9,16 @@ import LoginForm from "./forms/LoginForm";
 import ForgotPasswordForm from "./forms/ForgotPasswordForm";
 import ResetPasswordForm from "./forms/ResetPasswordForm";
 import SendVerificationEmailForm from "./forms/SendVerificationEmailForm";
+import { useVerifyUserMutation } from "@/store/slices/api/authApi";
+import VerifyEmailForm from "./forms/VerifyEmailForm";
 
 interface FormProps {
   footerText?: string;
   footerLink?: string;
   footerLinkText?: string;
   withFooter?: boolean;
+  id?: string;
+  token?: string;
 }
 
 const Form: NextPage<FormProps> = ({
@@ -22,10 +26,16 @@ const Form: NextPage<FormProps> = ({
   footerLink = "",
   withFooter = false,
   footerLinkText = "",
+  id = "",
+  token = "",
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
 
   const pathname = usePathname();
+
+  console.log("pathname", pathname);
+  console.log("id", id);
+  console.log("token", token);
 
   const formVariant = () => {
     switch (pathname) {
@@ -35,11 +45,11 @@ const Form: NextPage<FormProps> = ({
         return "Register";
       case "/forgot-password":
         return "ForgotPassword";
-      case "/reset-password":
+      case `/reset-password/${id}/${token}`:
         return "ResetPassword";
       case "/send-verification-email":
         return "SendVerificationEmail";
-      case "/verify-email":
+      case `/verify-email/${id}/${token}`:
         return "VerifyEmail";
       default:
         return "Login";
@@ -52,16 +62,14 @@ const Form: NextPage<FormProps> = ({
         {formVariant() === "Login" && <LoginForm />}
         {formVariant() === "Register" && <RegisterForm />}
         {formVariant() === "ForgotPassword" && <ForgotPasswordForm />}
-        {formVariant() === "ResetPassword" && <ResetPasswordForm />}
+        {formVariant() === "ResetPassword" && (
+          <ResetPasswordForm id={id} token={token} />
+        )}
         {formVariant() === "SendVerificationEmail" && (
           <SendVerificationEmailForm />
         )}
         {formVariant() === "VerifyEmail" && (
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-base font-semibold text-gray-900">
-              Your email has been verified!
-            </h1>
-          </div>
+          <VerifyEmailForm id={id} token={token} />
         )}
 
         {withFooter && (

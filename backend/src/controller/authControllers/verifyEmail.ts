@@ -4,11 +4,16 @@ import UserModel from "@/models/UserModel";
 import EmailVerificationTokenModel from "@/models/EmailVerificationTokenModel";
 import sendError from "@/utils/sendError";
 import { VerifyEmailRequest } from "@/@types/auth";
+import { isValidObjectId } from "mongoose";
 
 const verifyEmailController: RequestHandler = asyncHandler(
   async (req: VerifyEmailRequest, res: Response, next: NextFunction) => {
     try {
       const { userId, token } = req.body;
+
+      // Check if userId is valid using mongoose
+      if (!isValidObjectId(userId))
+        return sendError(res, "Invalid user ID", 400);
 
       // Check if user exists and verified
       const user = await UserModel.findById(userId);

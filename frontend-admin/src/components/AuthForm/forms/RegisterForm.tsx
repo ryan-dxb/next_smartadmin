@@ -8,11 +8,13 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import SocialLoginForm from "../SocialLoginForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "@/schema/auth.schema";
+import { useRegisterUserMutation } from "@/store/slices/api/authApi";
 
 interface RegisterFormProps {}
 
 const RegisterForm: NextPage<RegisterFormProps> = ({}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [registerUser, { isLoading, isError, error, isSuccess }] =
+    useRegisterUserMutation();
 
   const {
     register,
@@ -28,22 +30,23 @@ const RegisterForm: NextPage<RegisterFormProps> = ({}) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
-    console.log(data);
+    const { email, password, username } = data;
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    const response = await registerUser({
+      email: email,
+      password: password,
+      username: username,
+    });
 
-    //     // register
-    //     await axios
-    //       .post("/api/register", data)
-    //       .then(() => signIn("credentials", { ...data, redirect: false }))
-    //       .catch((error) => {
-    //         console.log(error);
-    //         toast.error("Something went wrong! Please try again.");
-    //       });
-    //   }
+    if (isError) {
+      console.log("error", error);
+    }
+
+    if (isSuccess) {
+      console.log("success");
+    }
+
+    console.log("register form response", response);
   };
 
   return (

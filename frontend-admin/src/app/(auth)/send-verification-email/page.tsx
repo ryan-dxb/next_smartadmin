@@ -8,7 +8,12 @@ const SendVerificationEmail: NextPage<SendVerificationEmailProps> = () => {
   return (
     <>
       <FormTitle text="Verification email" />
-      <Form />
+      <Form
+        withFooter
+        footerLink="/login"
+        footerText="Remembered your password?"
+        footerLinkText="Login"
+      />
     </>
   );
 };

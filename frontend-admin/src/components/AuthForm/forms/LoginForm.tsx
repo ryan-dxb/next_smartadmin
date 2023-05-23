@@ -26,7 +26,6 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
       username: "test@test.com",
       password: "Password1*",
     },
-    // resolver: yupResolver(RegisterSchema),
   });
 
   const isEmail = (str: string) => {
@@ -36,11 +35,6 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const isEmailValid = isEmail(data.username);
-    // setIsLoading(true);
-
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 2000);
 
     let response;
     if (isEmailValid) {
@@ -66,16 +60,6 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
     }
 
     console.log("response", response);
-
-    //     // register
-    //     await axios
-    //       .post("/api/register", data)
-    //       .then(() => signIn("credentials", { ...data, redirect: false }))
-    //       .catch((error) => {
-    //         console.log(error);
-    //         toast.error("Something went wrong! Please try again.");
-    //       });
-    //   }
   };
 
   return (
@@ -102,7 +86,7 @@ const LoginForm: NextPage<LoginFormProps> = ({}) => {
         />
         <Link
           href="/forgot-password"
-          className="flex justify-end text-sm font-semibold text-gray-400"
+          className="flex justify-end w-auto text-sm font-semibold text-gray-400"
         >
           Forgot password?
         </Link>

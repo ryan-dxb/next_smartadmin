@@ -50,7 +50,7 @@ export const VerifyEmailSchema = yup.object().shape({
       if (this.isType(value) && isValidObjectId(value)) {
         return value;
       }
-      return "";
+      return "Invalid user ID";
     }),
 
   token: yup.string().trim().required("Token is required"),
