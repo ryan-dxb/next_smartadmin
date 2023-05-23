@@ -10,14 +10,22 @@ import {
   updatePost,
 } from "@/controller/postControllers/postController";
 import { get } from "config";
+import fileParser from "@/utils/fileParser";
 
 const router = Router();
 
-router.post("/create", isAuthMiddleware, validate(PostSchema), createPost);
+router.post(
+  "/create",
+  isAuthMiddleware,
+  fileParser,
+  validate(PostSchema),
+  createPost
+);
 
 router.post(
   "/update/:postId",
   isAuthMiddleware,
+  fileParser,
   validate(PostSchema),
   updatePost
 );
