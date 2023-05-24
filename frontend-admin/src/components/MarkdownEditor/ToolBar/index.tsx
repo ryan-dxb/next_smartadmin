@@ -19,16 +19,19 @@ import {
 import { NextPage } from "next";
 import { getFocusedEditor } from "../EditorUtils";
 import DropdownOptions from "@/components/ui/DropDownOptions";
-import Button from "@/components/ui/Button";
 import ToolBarButton from "./ToolBarButton";
 
 import { Separator } from "@/components/ui/seperator";
+import InsertLink from "../Link/InsertLink";
+import { linkOption } from "../Link/LinkForm";
+import EmbedYoutube from "./EmbedYoutube";
 
 interface ToolBarProps {
   editor: Editor | undefined | null;
+  onOpenImageClick?(): void;
 }
 
-const ToolBar: NextPage<ToolBarProps> = ({ editor }) => {
+const ToolBar: NextPage<ToolBarProps> = ({ editor, onOpenImageClick }) => {
   if (!editor) return null;
 
   const options = [
@@ -58,6 +61,18 @@ const ToolBar: NextPage<ToolBarProps> = ({ editor }) => {
     return "Paragraph";
   };
 
+  // Link Form and Submit Button
+  const handleLinkSubmit = ({ url, openInNewTab }: linkOption) => {
+    const { commands } = editor;
+    if (openInNewTab) commands.setLink({ href: url, target: "_blank" });
+    else commands.setLink({ href: url });
+  };
+
+  // Embed Youtube
+  const handleEmbedYoutube = (url: string) => {
+    editor.chain().focus().setYoutubeVideo({ src: url }).run();
+  };
+
   const Head = () => {
     return (
       <div className="flex items-center">
@@ -68,8 +83,6 @@ const ToolBar: NextPage<ToolBarProps> = ({ editor }) => {
   };
 
   // heading 1, 2, 3 "bold" "italic" "underline" "strike" "quote" "code" "code-block" "insert-link" "lists (ol and ul)" "embed youtube" "insert image"
-
-  console.log(editor);
 
   return (
     <div className="flex flex-col justify-center w-full py-2 pl-4 space-y-4 bg-gray-100 border-b-2 md:space-y-0 md:space-x-4 md:justify-start md:items-center md:flex-row ">
@@ -141,7 +154,7 @@ const ToolBar: NextPage<ToolBarProps> = ({ editor }) => {
             <BsBraces />
           </ToolBarButton>
 
-          {/* <InsertLink onSubmit={handleLinkSubmit} /> */}
+          <InsertLink onSubmit={handleLinkSubmit} />
 
           <ToolBarButton
             active={editor.isActive("orderedList")}
@@ -162,10 +175,11 @@ const ToolBar: NextPage<ToolBarProps> = ({ editor }) => {
           orientation="vertical"
           className=" inline-flex h-6 w-[1px]  bg-gray-950/20"
         />
-        {/* <div className="flex items-center space-x-3">
-        <EmbedYoutube onSubmit={handleEmbedYoutube} /> */}
+        <div className="flex items-center space-x-3">
+          <EmbedYoutube onSubmit={handleEmbedYoutube} />
+        </div>
 
-        <ToolBarButton>
+        <ToolBarButton onClick={onOpenImageClick}>
           <BsImageFill />
         </ToolBarButton>
       </div>

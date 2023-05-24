@@ -20,6 +20,8 @@ import ActionButton from "./ActionButton";
 import ThumbnailSelector from "./ThumbnailSelector";
 import { Input } from "../ShadeUi/input";
 import Button from "../ui/Button";
+import { useState } from "react";
+import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
 
 interface EditorProps {
   initialValue?: string;
@@ -34,6 +36,26 @@ const MarkdownEditor: NextPage<EditorProps> = ({
   busy = false,
   // onSubmit,
 }) => {
+  const [selectionRange, setSelectionRange] = useState<Range | undefined>();
+  const [showGallery, setShowGallery] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [images, setImages] = useState<{ src: string }[]>([]);
+
+  console.log(selectionRange);
+
+  // Image Upload
+  const handleImageUpload = async (image: File) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("image", image);
+    // const { data } = await axios.post("/api/image", formData);
+    console.log("image uploaded", formData);
+
+    setUploading(false);
+
+    // setImages([data, ...images]);
+  };
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -62,45 +84,73 @@ const MarkdownEditor: NextPage<EditorProps> = ({
         },
       }),
     ],
-    content: "<p>Hello World! 🌎️</p>",
+    editorProps: {
+      handleClick(view, pos, event) {
+        const { state } = view;
+        const selectionRange = getMarkRange(
+          state.doc.resolve(pos),
+          state.schema.marks.link
+        );
+        if (selectionRange) setSelectionRange(selectionRange);
+      },
+
+      attributes: {
+        class: "prose  focus:outline-none w-full max-w-full mx-auto h-full",
+      },
+    },
   });
 
+  // Image Selection
+  const handleImageSelection = (result: ImageSelectionResult) => {
+    editor
+      ?.chain()
+      .focus()
+      .setImage({ src: result.src, alt: result.altText })
+      .run();
+  };
+
   return (
-    <div className="flex flex-col flex-1 mx-4 ">
-      <div className="flex flex-col flex-1 bg-white border-2 rounded-md">
-        <ToolBar editor={editor} />
-        <div className="flex w-full  min-h-[400px] mb-4  overflow-y-auto scrollbar-none">
-          {editor && (
-            <EditorContent
+    <>
+      <div className="flex flex-col flex-1 mx-4 my-2 space-y-6">
+        <Input type="text" placeholder="Title" className="w-full" />
+        <div className="flex flex-col w-full ">
+          <div className="flex flex-col flex-1 bg-white border-2 rounded-md">
+            <ToolBar
               editor={editor}
-              className="w-full h-full px-4 py-4 pt-2 active:border-none focus:border-none"
+              onOpenImageClick={() => setShowGallery(true)}
             />
-          )}
-        </div>
-      </div>
-
-      <div className="flex flex-col p-2 mt-4 space-y-2 bg-gray-100 border-2 rounded-md">
-        <div className="flex space-x-4 flex-2 ">
-          <div className="flex flex-col border-2 rounded-md ">
-            <h4 className="p-2 text-xs font-semibold tracking-tight text-gray-500 uppercase">
-              Thumbnail
-            </h4>
-            <ThumbnailSelector onChange={() => {}} />
-          </div>
-          <div className="flex flex-col w-full p-2 space-y-2 border-2 rounded-md">
-            <h4 className="text-xs font-semibold tracking-tight text-gray-500 uppercase">
-              SEO Fields
-            </h4>
-            <Input type="text" placeholder="Slug" className="w-full" />
-            <Input type="text" placeholder="Tags" className="w-full" />
-            <Input
-              type="text"
-              placeholder="Meta Description"
-              className="w-full"
-            />
+            <div className="flex w-full max-h-[400px] min-h-[400px] mb-4  overflow-y-auto scrollbar-none">
+              {editor && (
+                <EditorContent
+                  editor={editor}
+                  className="w-full h-full px-4 py-4 pt-2 active:border-none focus:border-none"
+                />
+              )}
+            </div>
           </div>
 
-          {/* <div className="flex flex-col justify-between w-40 my-4">
+          <div className="flex flex-col p-2 mt-4 space-y-2 bg-gray-100 border-2 rounded-md">
+            <div className="flex space-x-4 flex-2 ">
+              <div className="flex flex-col border-2 rounded-md ">
+                <h4 className="p-2 text-xs font-semibold tracking-tight text-gray-500 uppercase">
+                  Thumbnail
+                </h4>
+                <ThumbnailSelector onChange={() => {}} />
+              </div>
+              <div className="flex flex-col w-full p-2 space-y-2 border-2 rounded-md">
+                <h4 className="text-xs font-semibold tracking-tight text-gray-500 uppercase">
+                  SEO Fields
+                </h4>
+                <Input type="text" placeholder="Slug" className="w-full" />
+                <Input type="text" placeholder="Tags" className="w-full" />
+                <Input
+                  type="text"
+                  placeholder="Meta Description"
+                  className="w-full"
+                />
+              </div>
+
+              {/* <div className="flex flex-col justify-between w-40 my-4">
             <Button variant={"outline"} width={"fullWidth"} type="button">
               Save Draft
             </Button>
@@ -108,52 +158,27 @@ const MarkdownEditor: NextPage<EditorProps> = ({
               Publish
             </Button>
           </div> */}
-        </div>
-        <div className="flex space-x-4">
-          <Button variant={"outline"} width={"fullWidth"} type="button">
-            Save Draft
-          </Button>
-          <Button variant={"default"} width={"fullWidth"} type="button">
-            Publish
-          </Button>
+            </div>
+            <div className="flex space-x-4">
+              <Button variant={"outline"} width={"fullWidth"} type="button">
+                Save Draft
+              </Button>
+              <Button variant={"default"} width={"fullWidth"} type="button">
+                Publish
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-    // <div className="p-3 transition dark:bg-primary-dark bg-primary">
-    //   <div className="sticky top-0 z-10 dark:bg-primary-dark bg-primary">
-    //     {/* Thumbnail Selector and Submit Button */}
-    //     <div className="flex items-center justify-between mb-3">
-    //       <ThumbnailSelector
-    //         // initialValue={post.thumbnail as string}
-    //         // onChange={updateThumbnail}
-    //         onChange={() => {}}
-    //       />
-    //       <div className="inline-block">
-    //         <ActionButton
-    //           busy={busy}
-    //           title={btnTitle}
-    //           // onClick={handleSubmit}
-    //           disabled={busy}
-    //         />
-    //       </div>
-    //     </div>
-
-    //     {/* Title Input */}
-    //     <input
-    //       type="text"
-    //       className="py-2 outline-none bg-transparent w-full border-0 border-b-[1px] border-secondary-dark dark:border-secondary-light text-3xl font-semibold italic text-primary-dark dark:text-primary mb-3"
-    //       placeholder="Title"
-    //       // onChange={updateTitle}
-    //       // value={post.title}
-    //     />
-    //     <ToolBar
-    //       editor={editor}
-    //       // onOpenImageClick={() => setShowGallery(true)}
-    //     />
-    //     <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
-    //   </div>
-    // </div>
+      <GalleryModal
+        visible={showGallery}
+        onClose={() => setShowGallery(false)}
+        onSelect={handleImageSelection}
+        images={images}
+        onFileSelect={handleImageUpload}
+        uploading={uploading}
+      />
+    </>
   );
 };
 
