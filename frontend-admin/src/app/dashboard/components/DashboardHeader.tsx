@@ -14,7 +14,7 @@ const DashboardHeader: NextPage<DashboardHeaderProps> = () => {
         <span className=""></span>SMART{" "}
         <span className="font-bold text-indigo-600">ADMIN</span>
       </div>
-      <div className="w-full px-4">
+      <div className="hidden w-full px-4 md:inline-block">
         <div className="flex flex-row items-center justify-end space-x-6 ">
           <div className="flex items-center space-x-4">
             <Button size="lg" variant="outline">

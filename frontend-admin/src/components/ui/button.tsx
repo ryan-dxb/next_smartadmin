@@ -6,7 +6,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex text-white items-center justify-center rounded-md text-sm font-medium focus-visible:outline-none    disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 ease-in-out",
+  "inline-flex text-white items-center justify-center rounded-md text-sm font-medium focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 ease-in-out",
 
   {
     variants: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
         default: "bg-indigo-500 hover:bg-indigo-600",
         destructive: "bg-rose-500  hover:bg-rose-600",
         outline:
-          "border border-[2px] text-gray-600 hover:border-indigo-600 hover:text-indigo-600 focus-visible:border-indigo-600 focus-visible:text-indigo-600",
+          "border border-[2px] text-gray-600 hover:border-indigo-600 hover:text-indigo-600 focus-visible:border-indigo-600 focus-visible:text-indigo-600 ",
         disabled: "opacity-50 cursor-not-allowed",
         danger: "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
         dangerOutline: "border border-[1px] hover:border-rose-600",
@@ -41,6 +41,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
+  active?: boolean;
 }
 
 // interface ButtonProps {
@@ -54,14 +55,31 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, size, width, type, asChild = false, ...props },
+    {
+      className,
+      variant,
+      size,
+      width,
+      type,
+      active,
+      asChild = false,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
+
     return (
       <Comp
         type={type}
-        className={cn(buttonVariants({ variant, width, size, className }))}
+        className={cn(
+          buttonVariants({
+            variant,
+            width,
+            size,
+            className,
+          })
+        )}
         ref={ref}
         {...props}
       />
