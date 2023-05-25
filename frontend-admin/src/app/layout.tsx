@@ -1,4 +1,3 @@
-import Logo from "@/components/Logo";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Providers from "@/components/Provider";

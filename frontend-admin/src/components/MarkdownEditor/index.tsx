@@ -20,8 +20,9 @@ import ActionButton from "./ActionButton";
 import ThumbnailSelector from "./ThumbnailSelector";
 import { Input } from "../ShadeUi/input";
 import Button from "../ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
+import EditLink from "./Link/EditLink";
 
 interface EditorProps {
   initialValue?: string;
@@ -109,6 +110,13 @@ const MarkdownEditor: NextPage<EditorProps> = ({
       .run();
   };
 
+  // Selection Range Link
+  useEffect(() => {
+    if (editor && selectionRange) {
+      editor.commands.setTextSelection(selectionRange);
+    }
+  }, [editor, selectionRange]);
+
   return (
     <>
       <div className="flex flex-col flex-1 mx-4 my-2 space-y-6">
@@ -120,6 +128,7 @@ const MarkdownEditor: NextPage<EditorProps> = ({
               onOpenImageClick={() => setShowGallery(true)}
             />
             <div className="flex w-full max-h-[400px] min-h-[400px] mb-4  overflow-y-auto scrollbar-none">
+              {editor ? <EditLink editor={editor} /> : null}
               {editor && (
                 <EditorContent
                   editor={editor}
