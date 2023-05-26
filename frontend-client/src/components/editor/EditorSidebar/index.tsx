@@ -5,6 +5,7 @@ import ThumbnailSelector from "../Thumbnail";
 import { useState } from "react";
 import Publish from "./Publist";
 import Tags from "./Tags";
+import Category from "./Category";
 
 interface EditorSidebarProps {}
 
@@ -23,6 +24,8 @@ const EditorSidebar: NextPage<EditorSidebarProps> = () => {
       <ThumbnailSelector onChange={updateThumbnail} />
 
       <Tags />
+
+      <Category />
     </div>
   );
 };

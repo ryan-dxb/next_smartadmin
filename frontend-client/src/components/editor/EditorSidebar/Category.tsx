@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 
-interface TagsProps {}
+interface CategoryProps {}
 
 const people: { id: Number; name: string }[] = [
   { id: 1, name: "Durward Reynolds" },
@@ -16,10 +16,11 @@ const people: { id: Number; name: string }[] = [
   { id: 5, name: "Katelyn Rohan" },
 ];
 
-const Tags: NextPage<TagsProps> = () => {
-  const [selectedPeople, setSelectedPeople] = useState<
-    { id?: number; name?: string }[]
-  >([]);
+const Category: NextPage<CategoryProps> = () => {
+  const [selectedPeople, setSelectedPeople] = useState<{
+    id?: number;
+    name?: string;
+  }>();
   const [query, setQuery] = useState("");
 
   const handleSearch = (e: any) => {
@@ -40,38 +41,42 @@ const Tags: NextPage<TagsProps> = () => {
   return (
     <div>
       <h4 className="p-2 text-xs font-semibold tracking-tight text-gray-500 uppercase">
-        Tags
-      </h4>
-      <div className="w-full mb-2">
-        {selectedPeople.map((person) => (
-          <span
-            key={person.id}
-            className="inline-flex items-center px-2 py-1 mx-2 my-1 text-xs font-medium tracking-tight text-gray-700 bg-gray-100 rounded-full"
-          >
-            {person.name}
+        Category:
+        {selectedPeople && (
+          <span className="inline-flex items-center px-2 py-1 mx-2 my-1 text-xs font-medium tracking-tight text-gray-700 bg-gray-100 rounded-full">
+            {selectedPeople.name}
             <button
               type="button"
               className="flex-shrink-0 ml-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-              onClick={() => {
-                setSelectedPeople(
-                  selectedPeople.filter((p) => p.id !== person.id)
-                );
-              }}
+              onClick={() => {}}
             >
               <span className="sr-only">Remove person</span>
               <RxCross2 className="w-4 h-4 font-semibold" aria-hidden="true" />
             </button>
           </span>
-        ))}
-      </div>
+        )}
+      </h4>
+      {/* <div className="w-full mb-2">
+        {selectedPeople && (
+          <span className="inline-flex items-center px-2 py-1 mx-2 my-1 text-xs font-medium tracking-tight text-gray-700 bg-gray-100 rounded-full">
+            {selectedPeople.name}
+            <button
+              type="button"
+              className="flex-shrink-0 ml-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+              onClick={() => {}}
+            >
+              <span className="sr-only">Remove person</span>
+              <RxCross2 className="w-4 h-4 font-semibold" aria-hidden="true" />
+            </button>
+          </span>
+        )}
+      </div> */}
+
       <Combobox
         as="div"
         value={selectedPeople}
         onChange={setSelectedPeople}
-        // @ts-ignore
-        multiple="true"
         className="relative mx-2 border rounded-md border-input hover:bg-accent hover:text-accent-foreground"
-        aft
       >
         <div className="flex items-center px-4">
           <BiSearch className="w-6 h-6 text-gray-600 " aria-hidden="true" />
@@ -108,4 +113,4 @@ const Tags: NextPage<TagsProps> = () => {
   );
 };
 
-export default Tags;
+export default Category;

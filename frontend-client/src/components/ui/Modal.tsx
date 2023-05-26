@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { NextPage } from "next";
 import { Fragment } from "react";
@@ -9,9 +10,17 @@ interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  modalTitle?: string;
+  large?: boolean;
 }
 
-const Modal: NextPage<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: NextPage<ModalProps> = ({
+  isOpen,
+  onClose,
+  modalTitle,
+  large,
+  children,
+}) => {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -38,8 +47,19 @@ const Modal: NextPage<ModalProps> = ({ isOpen, onClose, children }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                <div className="absolute top-0 right-0 z-10 hidden pt-4 pr-4 sm:block">
+              <Dialog.Panel
+                className={cn(
+                  large ? "lg:max-w-4xl max-w-2xl" : "max-w-lg",
+                  "relative w-full p-4 pb-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl lg:my-8  lg:p-6"
+                )}
+              >
+                <div className="z-10 flex flex-row items-center justify-between px-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="font-medium leading-6 text-gray-900 "
+                  >
+                    {modalTitle ? modalTitle : "Modal Title"}
+                  </Dialog.Title>
                   <button
                     type="button"
                     className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

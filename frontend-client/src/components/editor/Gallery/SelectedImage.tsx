@@ -4,18 +4,18 @@ import { cn } from "@/lib/utils";
 import { NextPage } from "next";
 import { ChangeEventHandler, FC, useEffect, useState } from "react";
 
-interface ThumbnailSelectorProps {
+interface SelectedImageProps {
   initialValue?: string;
   onChange(file: File): void;
 }
 
 const commonClass = "rounded cursor-pointer aspect-video text-gray-400";
 
-const ThumbnailSelector: NextPage<ThumbnailSelectorProps> = ({
+const SelectedImage: NextPage<SelectedImageProps> = ({
   initialValue,
   onChange,
 }) => {
-  const [selectedThumbnail, setSelectedThumbnail] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string>("");
 
   // Change Event Handler for Thumbnail Selector
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -23,12 +23,12 @@ const ThumbnailSelector: NextPage<ThumbnailSelectorProps> = ({
     if (!files) return;
 
     const file = files[0];
-    setSelectedThumbnail(URL.createObjectURL(file));
-    onChange(file);
+    setSelectedImage(URL.createObjectURL(file));
+    // onChange(file);
   };
 
   useEffect(() => {
-    if (typeof initialValue === "string") setSelectedThumbnail(initialValue);
+    if (typeof initialValue === "string") setSelectedImage(initialValue);
   }, [initialValue]);
 
   return (
@@ -37,11 +37,11 @@ const ThumbnailSelector: NextPage<ThumbnailSelectorProps> = ({
         <h4 className="text-xs font-semibold tracking-tight text-gray-500 uppercase divide-y">
           Thumbnail
         </h4>
-        {selectedThumbnail && (
+        {selectedImage && (
           <button
             type="button"
             className="text-xs font-semibold tracking-tight uppercase text-rose-500"
-            onClick={() => setSelectedThumbnail("")}
+            onClick={() => setSelectedImage("")}
           >
             Remove
           </button>
@@ -53,15 +53,15 @@ const ThumbnailSelector: NextPage<ThumbnailSelectorProps> = ({
             type="file"
             hidden
             accept="image/jpg, image/png, image/jpeg"
-            id="thumbnail"
+            id="selectedImage"
             onChange={handleChange}
             className="h-full"
           />
-          <label htmlFor="thumbnail">
-            {selectedThumbnail ? (
+          <label htmlFor="selectedImage">
+            {selectedImage ? (
               <div className="flex items-center justify-center h-full">
                 <img
-                  src={selectedThumbnail}
+                  src={selectedImage}
                   alt=""
                   className={cn(commonClass, "object-cover")}
                 />
@@ -91,4 +91,4 @@ const PosterUI: FC<{ label: string; className?: string }> = ({
   );
 };
 
-export default ThumbnailSelector;
+export default SelectedImage;
