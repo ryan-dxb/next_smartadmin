@@ -5,7 +5,7 @@ import DashboardMain from "./components/DashboardMain";
 interface DashboardProps {}
 
 const Dashboard: NextPage<DashboardProps> = () => {
-  return <></>;
+  return <div>Hello</div>;
 };
 
 export default Dashboard;

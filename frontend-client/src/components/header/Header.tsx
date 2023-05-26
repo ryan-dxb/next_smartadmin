@@ -1,13 +1,22 @@
 "use client";
 
-import SettingsModal from "@/components/Modal/SettingsModal";
-import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import { Button } from "@/components/ui/Button";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { IoSearchOutline, IoMoonOutline, IoMailOutline } from "react-icons/io5";
+import { AiOutlineSetting } from "react-icons/ai";
+import {
+  IoSearchOutline,
+  IoMoonOutline,
+  IoMailOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import SettingsModal from "../modals/SettingsModal";
+import SettingModal from "../modals/SettingModal";
+import SettingsDrawer from "../drawer/SettingsDrawer";
+import SettingDrawer from "../drawer/SettingsDrawer2";
 
 interface DashboardHeaderProps {}
 
@@ -18,19 +27,22 @@ const currentUser = {
 
 const DashboardHeader: NextPage<DashboardHeaderProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <SettingsModal
+      <SettingDrawer
         currentUser={currentUser}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
-      {/* <SettingsDrawer
+
+      <SettingModal
         currentUser={currentUser}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      /> */}
+        isModalOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div className="flex items-center w-full h-16 bg-white border-b ">
         <div className="flex ml-4 text-xl font-bold">
           <span className=""></span>SMART{" "}
@@ -52,13 +64,45 @@ const DashboardHeader: NextPage<DashboardHeaderProps> = () => {
                 <IoMoonOutline className="w-6 h-6" />
               </Button>
             </div>
+
+            <SettingsModal
+              OpenButton={
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="relative overflow-hidden rounded-full"
+                >
+                  <Image src="/avatar.jpg" fill alt="Avatar" className="" />
+                </Button>
+              }
+            />
+
+            <SettingsDrawer
+              OpenButton={
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="relative overflow-hidden rounded-full"
+                >
+                  <IoSettingsOutline className="w-6 h-6" />
+                </Button>
+              }
+            />
             <Button
               size="lg"
               variant="outline"
               className="relative overflow-hidden rounded-full"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <Image src="/avatar.jpg" fill alt="Avatar" className="" />
+              <AiOutlineSetting className="w-6 h-6" />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="relative overflow-hidden rounded-full"
+              onClick={() => setIsModalOpen(!isOpen)}
+            >
+              <CgProfile className="w-6 h-6" />
             </Button>
           </div>
         </div>
