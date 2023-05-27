@@ -20,9 +20,10 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import Youtube from "@tiptap/extension-youtube";
 import TipTapImage from "@tiptap/extension-image";
-import SEOContainer from "./SEO/SEOContainer";
+import SeoContainer from "./SEO/SeoContainer";
 import EditorSidebar from "./EditorSidebar";
 import GalleryModal from "./Gallery/GalleryModal";
+import CollapsibleContainer from "../ui/CollapsibleContainer";
 
 interface EditorProps {}
 
@@ -100,7 +101,7 @@ const Editor: NextPage<EditorProps> = () => {
               />
             )}
           </div>
-          <SEOContainer />
+          <SeoContainer />
         </div>
         <EditorSidebar />
       </div>

@@ -35,7 +35,7 @@ const SelectedImage: NextPage<SelectedImageProps> = ({
     <div className="divide-y divide-gray-300">
       <div className="flex justify-between p-2">
         <h4 className="text-xs font-semibold tracking-tight text-gray-500 uppercase divide-y">
-          Thumbnail
+          Selected Image
         </h4>
         {selectedImage && (
           <button
@@ -68,7 +68,7 @@ const SelectedImage: NextPage<SelectedImageProps> = ({
               </div>
             ) : (
               <PosterUI
-                label="Thumbnail"
+                label="Selected Image"
                 className="flex items-center justify-center h-full text-gray-400 cursor-pointer "
               />
             )}
