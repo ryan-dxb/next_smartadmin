@@ -9,9 +9,9 @@ interface DropDownProps {}
 
 const DropDown: NextPage<DropDownProps> = () => {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative z-50 inline-block text-left">
       {({ open }) => (
-        <Fragment>
+        <div className="z-[100] ">
           <Menu.Button className="inline-flex justify-center w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm ">
             Options
           </Menu.Button>
@@ -87,7 +87,7 @@ const DropDown: NextPage<DropDownProps> = () => {
               </div>
             </Menu.Items>
           </Transition>
-        </Fragment>
+        </div>
       )}
     </Menu>
   );

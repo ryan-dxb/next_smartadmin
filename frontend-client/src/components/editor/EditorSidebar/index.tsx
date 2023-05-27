@@ -15,10 +15,8 @@ const EditorSidebar: NextPage<EditorSidebarProps> = () => {
   // Thumbnail Change
   const updateThumbnail = (file: File) => setThumbnail(file);
 
-  console.log(thumbnail);
-
   return (
-    <div className="flex flex-col flex-1 h-full space-y-6 border ">
+    <div className="flex flex-col flex-1 w-1/5 h-full space-y-6 border ">
       <Publish />
 
       <ThumbnailSelector onChange={updateThumbnail} />

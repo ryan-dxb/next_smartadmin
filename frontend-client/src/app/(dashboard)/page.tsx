@@ -9,7 +9,7 @@ const Dashbard: NextPage<DashbardProps> = () => {
   return (
     <div className="relative flex flex-1 h-screen overflow-hidden">
       <DesktopSidebarPanel />
-      <div className="w-full">
+      <div className="w-full mx-auto max-w-7xl">
         <Editor />
       </div>
     </div>

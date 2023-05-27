@@ -19,6 +19,9 @@ import {
 import { AiFillCaretDown } from "react-icons/ai";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import DropDown from "@/components/ui/DropDown";
+import EmbedYoutube from "./EmbedYoutube";
+import InsertLink, { linkOption } from "../Link/InsetLink";
+import HeadingDropDown from "./HeadingDropDown";
 
 interface EditorToolBarProps {
   editor: Editor | undefined | null;
@@ -51,9 +54,9 @@ const EditorToolBar: NextPage<EditorToolBarProps> = ({
   ];
 
   const getLabel = (): string => {
-    if (editor.isActive("heading", { level: 1 })) return "Heading 1";
-    if (editor.isActive("heading", { level: 2 })) return "Heading 2";
-    if (editor.isActive("heading", { level: 3 })) return "Heading 3";
+    if (editor.isActive("heading", { level: 1 })) return "H1";
+    if (editor.isActive("heading", { level: 2 })) return "H2";
+    if (editor.isActive("heading", { level: 3 })) return "H3";
 
     return "Paragraph";
   };
@@ -68,8 +71,33 @@ const EditorToolBar: NextPage<EditorToolBarProps> = ({
     else return false;
   }, [editor]);
 
+  // Youtube
+  const handleEmbedYoutube = (url: string) => {
+    editor.chain().focus().setYoutubeVideo({ src: url }).run();
+  };
+
+  // Link
+  const handleLinkSubmit = ({ url, openInNewTab }: linkOption) => {
+    const { commands } = editor;
+
+    console.log(url, openInNewTab);
+
+    if (openInNewTab) commands.setLink({ href: url, target: "_blank" });
+    else commands.setLink({ href: url });
+  };
+
+  // Dropdown for heading
+  const Head = () => {
+    return (
+      <div className="flex items-center space-x-2 cursor-pointer">
+        <p>{getLabel()}</p>
+        <AiFillCaretDown />
+      </div>
+    );
+  };
+
   return (
-    <div className="sticky">
+    <div className="sticky z-50">
       <div className="flex flex-wrap items-center w-full ">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-1 ">
@@ -101,8 +129,10 @@ const EditorToolBar: NextPage<EditorToolBarProps> = ({
               <BsTypeStrikethrough />
             </ToolBarButton>
           </div>
-          <DropDown />
-          <div className="flex items-center space-x-1">
+
+          <HeadingDropDown options={options} header={<Head />} />
+
+          <div className="z-50 flex items-center space-x-1">
             <ToolBarButton
               active={editor.isActive("blockquote")}
               onClick={() => getFocusedEditor(editor).toggleBlockquote().run()}
@@ -124,7 +154,7 @@ const EditorToolBar: NextPage<EditorToolBarProps> = ({
               <BsBraces />
             </ToolBarButton>
 
-            {/* <InsertLink onSubmit={handleLinkSubmit} /> */}
+            <InsertLink onSubmit={handleLinkSubmit} />
 
             <ToolBarButton
               active={editor.isActive("orderedList")}
@@ -142,7 +172,7 @@ const EditorToolBar: NextPage<EditorToolBarProps> = ({
           </div>
 
           <div className="flex items-center space-x-3">
-            {/* <EmbedYoutube onSubmit={handleEmbedYoutube} /> */}
+            <EmbedYoutube onSubmit={handleEmbedYoutube} />
           </div>
 
           <ToolBarButton onClick={onOpenImageClick}>
